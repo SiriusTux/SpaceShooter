@@ -222,6 +222,7 @@ def displayStanding(standing, font, score):
     for i, line in enumerate(standing):
         standing_line = '{:>5}{:>5}{:>5}{:>10}{:>15}'.format(*line.split('\t'))
         if int(line.split('\t')[3]) == score:
+            # Change color on actual game score if in standings
             standing_line_label = font.render(standing_line, 1, (0, 255, 0))
         else: 
             standing_line_label = font.render(standing_line, 1, (255, 255, 255))
@@ -237,6 +238,7 @@ def main_menu(name):
 
     while run:
         if start:
+            ### Game Start ###
             blink += 1
             WIN.blit(BG, (0, 0))
             welcome_mes = title_font.render('Welcome {}!'.format(name), 1, (0, 255, 0))
@@ -253,6 +255,7 @@ def main_menu(name):
                     if event.key == pygame.K_p:
                         start, level, score = main(name)
         else:
+            ### Game Over ###
             dmy = time.strftime("%d-%m-%Y")
             standing = checkRecord(level=level, points=score, date=dmy, name=name[:3]).split('\n')
             displayStanding(standing, standing_font, score)
@@ -266,9 +269,9 @@ if len(sys.argv) > 1:
     if len(sys.argv[1]) == 3:
         main_menu(sys.argv[1])
     else:
-        print('Il nome del player deve essere di 3 caratteri')
+        print('Use 3 char for Player name')
         sys.exit(0)
 else:
-    print('Indica il nome del palyer dopo spaceshooter.py')
+    print('Usage: spaceshooter.py AAA')
     sys.exit(0)
 
