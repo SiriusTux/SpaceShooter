@@ -1,5 +1,5 @@
 from ship import Player, Enemy, Life1up, PowerShip
-from record import checkRecord
+from record import checkRecord, getBestScore
 from collide import collide
 import time
 import pygame
@@ -56,6 +56,7 @@ def main(name):
     run = True
     level = 0
     lives = 5
+    best = getBestScore()
     score = 0
     lost = False
     lost_count = 0
@@ -81,12 +82,14 @@ def main(name):
     def redraw_window():
         WIN.blit(BG, (0,0))
 
-        # Draw Text
+        # Draw Text on screen
         lives_label = main_font.render('Lives:{}'.format(lives), 1, (255, 255, 255))
         level_label = main_font.render('Level:{}'.format(level), 1, (255, 255, 255))
-        score_label = main_font.render('{}:{}'.format(name, score), 1, (255, 255, 255))
+        best_label = main_font.render('WR:{}'.format(best), 1, (255, 0, 255))
+        score_label = main_font.render('{}:{}'.format(name, score), 1, (255, 255, 0))
         WIN.blit(lives_label, (10, 10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
+        WIN.blit(best_label, (WIDTH/2 - level_label.get_width()/2, 10))
         WIN.blit(score_label, (10, HEIGHT - score_label.get_height()))
 
         for enemy in enemies:
@@ -195,6 +198,10 @@ def main(name):
                 powers.remove(power)
 
         score += player.move_lasers(-player_laser_vel, enemies, HEIGHT)
+        
+        # Check if player score is better than World Record
+        if score >= best:
+            best = score
     
     return False, level, score
 

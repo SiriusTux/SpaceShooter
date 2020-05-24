@@ -1,6 +1,6 @@
 from score import Score
 
-def printRanking():
+def readranking():
     ranking = []
     with open('record.txt', 'r') as record:
         lines = record.readlines()
@@ -8,6 +8,15 @@ def printRanking():
             if i != 0:
                 vect = line.rstrip('\n').split('\t')
                 ranking.append(Score(*vect))
+    return ranking
+
+def getBestScore():
+    ranking = readranking()
+    best = max([el.points for el in ranking])
+    return best
+
+def getRanking():
+    ranking = readranking()
     s = ''
     for el in ranking:
         for i in range(10):
@@ -21,5 +30,5 @@ def checkRecord(level, points, date, name):
         playerScore.name = name
         newranking = playerScore.getNewRank()
         playerScore.saveRanking(newranking)
-    return printRanking()
+    return getRanking()
 
