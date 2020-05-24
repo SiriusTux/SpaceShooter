@@ -44,6 +44,7 @@ class Score:
             else:
                 self.rank = rank + 1
                 newRanking.append(self)
+        return newRanking
 
 
     def saveRanking(self, ranking):
@@ -54,19 +55,3 @@ class Score:
                 for element in ranking:
                     if element.rank == rank:
                         record.write('{}\t{}\t{}\t{}\t{}\n'.format(element.rank, element.name, element.level, element.points, element.date))
-
-
-if __name__ == '__main__':
-    game1 = Score(0, 'ste', '2',  '19', '09/10/1974')
-    game2 = Score(0, 'cnz', '4',  '153', '19/08/1977')
-    game3 = Score(0, 'cnz', '4',  '90', '19/08/1977')
-    game4 = Score(0, 'ste', '4',  '-10', '19/08/1977')
-    newranking = game1.getNewRank()
-    game1.saveRanking(newranking)
-    newranking2 = game2.getNewRank()
-    game2.saveRanking(newranking2)
-    newranking3 = game3.getNewRank()
-    game3.saveRanking(newranking3)
-    print(game4.isGood())
-    newranking4 = game4.getNewRank()
-    game4.saveRanking(newranking4)

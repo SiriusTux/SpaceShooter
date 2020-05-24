@@ -13,13 +13,11 @@ def printRanking():
         for i in range(10):
             if el.rank == i+1:
                 s += '{}\t{}\t{}\t{}\t{}\n'.format(el.rank, el.name, el.level, el.points, el.date)
-    return s
+    return s.rstrip('\n')
     
 def checkRecord(level, points, date, name):
     playerScore = Score(0, '', level, points, date)
     if playerScore.isGood():
-        #print('Yeah! You are in renking!')
-        #name = input('Please insert your name: ')
         playerScore.name = name
         newranking = playerScore.getNewRank()
         playerScore.saveRanking(newranking)

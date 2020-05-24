@@ -4,6 +4,7 @@ from collide import collide
 import time
 import pygame
 import os
+import sys
 import random
 
 pygame.font.init()
@@ -46,7 +47,7 @@ MAP_ENEMY = {
     }
 
 
-def main():
+def main(name):
     pygame.mixer.init(44100, -16, 2, 2048)
     pygame.mixer.music.load(os.path.join('music', 'Saturn.mp3'))
     pygame.mixer.music.play(-1)
@@ -58,7 +59,7 @@ def main():
     score = 0
     lost = False
     lost_count = 0
-    main_font = pygame.font.SysFont('comicsans', 40)
+    main_font = pygame.font.Font(os.path.join('font', 'PressStart2P-Regular.ttf'), 20)
 
     enemies = []
     lives1up = []
@@ -81,9 +82,9 @@ def main():
         WIN.blit(BG, (0,0))
 
         # Draw Text
-        lives_label = main_font.render('Lives: {}'.format(lives), 1, (255, 255, 255))
-        level_label = main_font.render('Level: {}'.format(level), 1, (255, 255, 255))
-        score_label = main_font.render('Score: {}'.format(score), 1, (255, 255, 255))
+        lives_label = main_font.render('Lives:{}'.format(lives), 1, (255, 255, 255))
+        level_label = main_font.render('Level:{}'.format(level), 1, (255, 255, 255))
+        score_label = main_font.render('{}:{}'.format(name, score), 1, (255, 255, 255))
         WIN.blit(lives_label, (10, 10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
         WIN.blit(score_label, (10, HEIGHT - score_label.get_height()))
@@ -144,7 +145,7 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     player.shoot(offset=(20,50), sound=SHOOT)
-                if event.key == pygame.K_p:
+                if event.key == pygame.K_RCTRL:
                     if len(picked_pow) > 0 and player.health < 100:
                         picked_pow.remove(picked_pow[0])
                         player.health = 100
@@ -197,45 +198,70 @@ def main():
     
     return False, level, score
 
-def displayStanding(standing, font):
+
+def displayStanding(standing, font, score):
     WIN.blit(BG, (0, 0))
+    offset = 5
+    # Display Hall of Fame title
+    font_hall = pygame.font.Font(os.path.join('font', 'PressStart2P-Regular.ttf'), 40)
+    hall_of_fame_label = font_hall.render('Hall of Fame', 1, (255, 0, 255))
+    WIN.blit(hall_of_fame_label, (WIDTH/2 - hall_of_fame_label.get_width()/2, HEIGHT /4))
+    # Display first line of standings
+    title = ('rank', 'name', 'lev', 'score', 'date')
+    title_line = '{:>5}{:>5}{:>5}{:>10}{:>15}'.format(*title)
+    title_line_label = font.render(title_line, 1, (255, 255, 255))
+    WIN.blit(title_line_label, (offset, HEIGHT/2 - title_line_label.get_height()))
+    # Display each row of standings
     for i, line in enumerate(standing):
-        offset = 50
-        for word in line.split('\t'):
-            word_label = font.render(word, 1, (255, 255, 255))
-            WIN.blit(word_label, (offset + word_label.get_width(), HEIGHT/2 + (i+1) * word_label.get_height()))
-            offset += 2*word_label.get_width()
+        standing_line = '{:>5}{:>5}{:>5}{:>10}{:>15}'.format(*line.split('\t'))
+        if int(line.split('\t')[3]) == score:
+            standing_line_label = font.render(standing_line, 1, (0, 255, 0))
+        else: 
+            standing_line_label = font.render(standing_line, 1, (255, 255, 255))
+        WIN.blit(standing_line_label, (offset, HEIGHT/2 + (i+1) * standing_line_label.get_height()))
     pygame.display.update()
 
-def main_menu():
-    title_font = pygame.font.SysFont('comicsans', 70)
-    standing_font = pygame.font.SysFont('comicsans', 35)
-    name = input('Chi sta giocando, inserisci il nome [3 caratteri]: ')
+def main_menu(name):
+    title_font = pygame.font.Font(os.path.join('font', 'PressStart2P-Regular.ttf'), 35)
+    standing_font = pygame.font.Font(os.path.join('font', 'PressStart2P-Regular.ttf'), 17)
     run = True
     start = True
+    blink = 1
 
     while run:
         if start:
+            blink += 1
             WIN.blit(BG, (0, 0))
+            welcome_mes = title_font.render('Welcome {}!'.format(name), 1, (0, 255, 0))
             title_label = title_font.render('Press P to play...', 1, (255, 255, 255))
-            WIN.blit(title_label, (WIDTH/2 - title_label.get_width()/2, HEIGHT/2))
+            WIN.blit(welcome_mes, (WIDTH/2 - welcome_mes.get_width()/2, HEIGHT/4))
+            if blink % 2 == 0:
+                WIN.blit(title_label, (WIDTH/2 - title_label.get_width()/2, HEIGHT/2))
+            pygame.time.wait(250)
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_p:
-                        start, level, score = main()
+                        start, level, score = main(name)
         else:
             dmy = time.strftime("%d-%m-%Y")
             standing = checkRecord(level=level, points=score, date=dmy, name=name[:3]).split('\n')
-            displayStanding(standing, standing_font)
+            displayStanding(standing, standing_font, score)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
     pygame.quit()
 
 
-main_menu()
-
+if len(sys.argv) > 1:
+    if len(sys.argv[1]) == 3:
+        main_menu(sys.argv[1])
+    else:
+        print('Il nome del player deve essere di 3 caratteri')
+        sys.exit(0)
+else:
+    print('Indica il nome del palyer dopo spaceshooter.py')
+    sys.exit(0)
 
