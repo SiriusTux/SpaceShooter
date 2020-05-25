@@ -85,7 +85,9 @@ def main(name):
     life1up_vel = 6
     power_vel = 6
 
-    player = Player(300, 650, img=YELLOW_SPACE_SHIP, laser_img=YELLOW_LASER)
+    player = Player(    x=300, y=650, 
+                        img=YELLOW_SPACE_SHIP, 
+                        laser_img=YELLOW_LASER )
     player_vel = 10
     player_laser_vel = 15
 
@@ -144,19 +146,21 @@ def main(name):
             wave_length += 5
             for _ in range(wave_length):
                 c = random.choice(['red', 'blue', 'green'])
-                enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), points=MAP_ENEMY[c][2], img=MAP_ENEMY[c][:2])
+                enemy = Enemy(  x=random.randrange(50, WIDTH-100), y=random.randrange(-1500, -100), 
+                                points=MAP_ENEMY[c][2], 
+                                img=MAP_ENEMY[c][:2] )
                 enemies.append(enemy)
 
         # Life Up arrival
         if random.randrange(0, 1000) == 1:
-            life1up = Life1up(random.randrange(50, WIDTH-100),
-                              random.randrange(-1500, -100), img=LIFE_1UP)
+            life1up = Life1up(  x=random.randrange(50, WIDTH-100), y=random.randrange(-1500, -100), 
+                                img=LIFE_1UP )
             lives1up.append(life1up)
 
         # Power energy arrival
         if random.randrange(0, 800) == 1:
-            power = PowerShip(random.randrange(50, WIDTH-100),
-                              random.randrange(-1500, -100), img=POWER_UP)
+            power = PowerShip(  x=random.randrange(50, WIDTH-100), y=random.randrange(-1500, -100), 
+                                img=POWER_UP )
             powers.append(power)
 
         # Key press events

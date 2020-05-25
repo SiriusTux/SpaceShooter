@@ -1,4 +1,5 @@
 import bisect
+import os
 
 class Score:
 
@@ -8,7 +9,7 @@ class Score:
         self.date =  date
         self.rank = int(rank)
         self.name = name
-        self.ranking_file = 'record.txt'
+        self.ranking_file = os.path.join('storage', 'record.txt')
 
     def getRanking(self):
         ranking = []

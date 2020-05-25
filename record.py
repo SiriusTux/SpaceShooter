@@ -1,8 +1,9 @@
 from score import Score
+import os
 
 def readranking():
     ranking = []
-    with open('record.txt', 'r') as record:
+    with open(os.path.join('storage', 'record.txt'), 'r') as record:
         lines = record.readlines()
         for i, line in enumerate(lines):
             if i != 0:
