@@ -1,6 +1,6 @@
 from ship import Player, Enemy, Life1up, PowerShip
 from record import checkRecord, getBestScore
-from collide import collide
+from collide import collide 
 import time
 import pygame
 import os
