@@ -84,13 +84,15 @@ def main(name):
 
         # Draw Text on screen
         lives_label = main_font.render('Lives:{}'.format(lives), 1, (255, 255, 255))
-        level_label = main_font.render('Level:{}'.format(level), 1, (255, 255, 255))
+        level_label = main_font.render('Level:{}'.format(level), 1, (0, 255, 255))
         best_label = main_font.render('WR:{}'.format(best), 1, (255, 0, 255))
-        score_label = main_font.render('{}:{}'.format(name, score), 1, (255, 255, 0))
-        WIN.blit(lives_label, (10, 10))
+        score_label = main_font.render('{}:{}'.format(name, score), 1, (0, 255, 0))
+        #WIN.blit(lives_label, (10, 10))
+        WIN.blit(score_label, (10, 10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
-        WIN.blit(best_label, (WIDTH/2 - level_label.get_width()/2, 10))
-        WIN.blit(score_label, (10, HEIGHT - score_label.get_height()))
+        WIN.blit(best_label, (WIDTH/2 - best_label.get_width()/2, 10))
+        WIN.blit(lives_label, (10, HEIGHT - lives_label.get_height()))
+        #WIN.blit(score_label, (10, HEIGHT - score_label.get_height()))
 
         for enemy in enemies:
             enemy.draw(WIN)
@@ -208,7 +210,6 @@ def main(name):
 
 def displayStanding(standing, font, score):
     WIN.blit(BG, (0, 0))
-    offset = 5
     # Display Hall of Fame title
     font_hall = pygame.font.Font(os.path.join('font', 'PressStart2P-Regular.ttf'), 40)
     hall_of_fame_label = font_hall.render('Hall of Fame', 1, (255, 0, 255))
@@ -217,16 +218,16 @@ def displayStanding(standing, font, score):
     title = ('rank', 'name', 'lev', 'score', 'date')
     title_line = '{:>5}{:>5}{:>5}{:>10}{:>15}'.format(*title)
     title_line_label = font.render(title_line, 1, (255, 255, 255))
-    WIN.blit(title_line_label, (offset, HEIGHT/2 - title_line_label.get_height()))
+    WIN.blit(title_line_label, ((WIDTH - title_line_label.get_width())/2, HEIGHT/2 - title_line_label.get_height()))
     # Display each row of standings
     for i, line in enumerate(standing):
-        standing_line = '{:>5}{:>5}{:>5}{:>10}{:>15}'.format(*line.split('\t'))
+        standing_line = '{:^5}{:^5}{:>5}{:>10}{:>15}'.format(*line.split('\t'))
         if int(line.split('\t')[3]) == score:
             # Change color on actual game score if in standings
             standing_line_label = font.render(standing_line, 1, (0, 255, 0))
         else: 
             standing_line_label = font.render(standing_line, 1, (255, 255, 255))
-        WIN.blit(standing_line_label, (offset, HEIGHT/2 + (i+1) * standing_line_label.get_height()))
+        WIN.blit(standing_line_label, ((WIDTH - standing_line_label.get_width())/2, HEIGHT/2 + (i+1) * standing_line_label.get_height()))
     pygame.display.update()
 
 def main_menu(name):
