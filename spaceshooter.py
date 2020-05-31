@@ -314,8 +314,10 @@ def main_menu():
         else:
             ### Game Over ###
             dmy = time.strftime("%d-%m-%Y")
-            standing = checkRecord(
-                level=level, points=score, date=dmy, name=name[:3]).split('\n')
+            standing = checkRecord( level=level, 
+                                    points=score, 
+                                    date=dmy, 
+                                    name=name[:3]).split('\n')
             displayStanding(standing, standing_font, score)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
