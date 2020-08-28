@@ -265,10 +265,8 @@ def displayStartScreen(font, text):
 
 
 def main_menu():
-    title_font = pygame.font.Font(os.path.join(
-        'font', 'PressStart2P-Regular.ttf'), 25)
-    standing_font = pygame.font.Font(os.path.join(
-        'font', 'PressStart2P-Regular.ttf'), 17)
+    title_font = pygame.font.Font(os.path.join('font', 'PressStart2P-Regular.ttf'), 25)
+    standing_font = pygame.font.Font(os.path.join('font', 'PressStart2P-Regular.ttf'), 17)
     run = True
     start = True
     blink = 1
