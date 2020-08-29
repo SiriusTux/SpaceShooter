@@ -64,7 +64,7 @@ class Player(Ship):
                     if laser.collision(obj):
                         objs.remove(obj)
                         self.lasers.remove(laser)
-                            
+                        return obj.points    
         return 0
 
     def draw(self, window):
