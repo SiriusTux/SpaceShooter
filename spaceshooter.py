@@ -170,7 +170,7 @@ def main(name):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     player.shoot(offset=(20, 50), sound=SHOOT)
-                if event.key == pygame.K_RCTRL:
+                if event.key == pygame.K_RALT:
                     if len(picked_pow) > 0 and player.health < 100:
                         picked_pow.remove(picked_pow[0])
                         player.health = 100
