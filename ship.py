@@ -83,7 +83,7 @@ class Enemy(Ship):
         self.points = points
         self.ship_img, self.laser_img = img
         self.mask = pygame.mask.from_surface(self.ship_img)
-        
+
     def move_lasers(self, vel, obj, height):
         self.cooldown()
         for laser in self.lasers:
@@ -95,6 +95,7 @@ class Enemy(Ship):
                 self.lasers.remove(laser)
 
 
+
 class Life1up(Ship):
 
     def __init__(self, x, y, img):
@@ -103,9 +104,10 @@ class Life1up(Ship):
         self.mask = pygame.mask.from_surface(self.ship_img)
 
     def move(self, vel):
-        vel_x = random.randrange(-5, 5)
+        vel_x = random.randrange(-10, 10)
         self.x += vel_x
         self.y += vel
+
 
 
 class PowerShip(Ship):
