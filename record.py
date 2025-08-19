@@ -3,7 +3,7 @@ import os
 
 def readranking():
     ranking = []
-    with open(os.path.  
+    with open(os.path.
     join('storage', 'record.txt'), 'r') as record:
         lines = record.readlines()
         for i, line in enumerate(lines):
@@ -25,7 +25,7 @@ def getRanking():
             if el.rank == i+1:
                 s += '{}\t{}\t{}\t{}\t{}\n'.format(el.rank, el.name, el.level, el.points, el.date)
     return s.rstrip('\n')
-    
+
 def checkRecord(level, points, date, name):
     playerScore = Score(0, '', level, points, date)
     if playerScore.isGood():
@@ -33,4 +33,3 @@ def checkRecord(level, points, date, name):
         newranking = playerScore.getNewRank()
         playerScore.saveRanking(newranking)
     return getRanking()
-

@@ -7,7 +7,7 @@ import os
 import random
 
 pygame.font.init()
-WIDTH, HEIGHT = 750, 750
+WIDTH, HEIGHT = 950, 950
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Space Shooter')
 
@@ -267,11 +267,17 @@ def main_menu():
     print('Benvenuti in Spaceshooter!!')
     title_font = pygame.font.Font(os.path.join('font', 'PressStart2P-Regular.ttf'), 25)
     standing_font = pygame.font.Font(os.path.join('font', 'PressStart2P-Regular.ttf'), 17)
+    
     run = True
     start = True
     blink = 1
     name_ok = False
     text = ''
+    
+    level = 0
+    name = ''
+    score = 0
+
 
     while run:
         if start:
